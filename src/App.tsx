@@ -1,8 +1,9 @@
 import React from "react";
+import Heatmap from "./components/Heatmap/Heatmap";
 
 const App = () => (
   <div>
-    <h1>Test</h1>
+    <Heatmap />
   </div>
 );
 
