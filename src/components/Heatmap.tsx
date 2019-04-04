@@ -27,7 +27,7 @@ const Heatmap = (props: HeatmapProps) => {
 
   return (
     <Paper className={classes.wrapper}>
-      <div id="map" className={classes.wrapper} />
+      <div id="map" className={classes.map} />
     </Paper>
   );
 };
@@ -35,10 +35,14 @@ const Heatmap = (props: HeatmapProps) => {
 const useStyles = makeStyles({
   wrapper: {
     height: "calc(100vh - 184px)",
-    width: window.innerWidth * 0.9,
+    width: "100%",
     minWidth: "500px",
     margin: "auto",
     marginTop: 16
+  },
+  map: {
+    height: "100%",
+    width: "100%"
   }
 });
 

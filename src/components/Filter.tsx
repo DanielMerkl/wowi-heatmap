@@ -114,11 +114,11 @@ const Filter = (props: FilterProps) => {
 const useStyles = makeStyles({
   gridWrapper: {
     display: "grid",
-    gridTemplateColumns: "1fr 1fr 1fr 1fr 1fr",
+    gridTemplateColumns: "1fr",
     gridGap: "16px",
     maxWidth: window.innerWidth * 0.9,
     margin: "auto",
-    marginTop: 32
+    marginTop: 16
   }
 });
 

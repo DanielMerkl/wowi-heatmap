@@ -10,8 +10,12 @@ import Api from "./utils/Api";
 import { Schaden } from "./types/Schaden";
 import { Gebaeude } from "./types/Gebaeude";
 import { mapToCoordinates } from "./utils/mapToCoordinates";
+import { makeStyles } from "@material-ui/styles";
+import AdressSearch from "./components/AdressSearch";
 
 const App = () => {
+  const classes = useStyles();
+
   const [heatmap, setHeatmap] = useState(null);
   const [radius, setRadius] = useState(50);
   const [opacity, setOpacity] = useState(0.8);
@@ -99,25 +103,42 @@ const App = () => {
     }
   };
 
+  const setCenter = (coordinate: { lat: number; lng: number }) => {
+    // TODO: implementieren
+  };
+
   return (
     <MuiThemeProvider theme={theme}>
       <SimpleAppBar />
       <div style={{ height: 1 }}>{loadingData && <LinearProgress />}</div>
-      <Filter
-        darstellungsart={darstellungsart}
-        setDarstellungsart={setDarstellungsart}
-        filterFirmenname={filterFirmenname}
-        setFilterFirmenname={setFilterFirmenname}
-        filterSchadensart={filterSchadensart}
-        setFilterSchadensart={setFilterSchadensart}
-        radius={radius}
-        setRadius={handleSetRadius}
-        opacity={opacity}
-        setOpacity={handleSetOpacity}
-      />
-      <Heatmap setHeatmap={setHeatmap} />
+      <AdressSearch setCenter={setCenter} />
+      <div className={classes.gridWrapper}>
+        <Heatmap setHeatmap={setHeatmap} />
+        <Filter
+          darstellungsart={darstellungsart}
+          setDarstellungsart={setDarstellungsart}
+          filterFirmenname={filterFirmenname}
+          setFilterFirmenname={setFilterFirmenname}
+          filterSchadensart={filterSchadensart}
+          setFilterSchadensart={setFilterSchadensart}
+          radius={radius}
+          setRadius={handleSetRadius}
+          opacity={opacity}
+          setOpacity={handleSetOpacity}
+        />
+      </div>
     </MuiThemeProvider>
   );
 };
+
+const useStyles = makeStyles({
+  gridWrapper: {
+    display: "grid",
+    gridGap: "16px",
+    gridTemplateColumns: "1fr 200px",
+    maxWidth: window.innerWidth * 0.9,
+    margin: "auto"
+  }
+});
 
 export default App;
