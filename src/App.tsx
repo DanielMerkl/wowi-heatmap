@@ -12,7 +12,6 @@ import Api from "./utils/Api";
 import { CustomPosition } from "./types/CustomPosition";
 
 const App = () => {
-  const [heatmapVisible, setHeatmapVisible] = useState(true);
   const [radius, setRadius] = useState(50);
   const [opacity, setOpacity] = useState(0.8);
   const [positions, setPositions] = useState<Array<CustomPosition>>([
@@ -24,10 +23,13 @@ const App = () => {
     { lat: 51.26, lng: 6.8 }
   ]);
   const [heatmap, setHeatmap] = useState(null);
-
   const [heatmapData, setHeatmapData] = useState<HeatmapData>({
     ...initialHeatmap
   });
+
+  const [filterFirmenname, setFilterFirmenname] = useState("");
+  const [filterSchadensart, setFilterSchadensart] = useState("");
+  const [darstellungsart, setDarstellungsart] = useState("Versicherte Gebäude");
 
   const fetchHeatmap = async () => {
     try {
@@ -46,12 +48,12 @@ const App = () => {
 
   useEffect(() => {
     updateHeatmapData();
-  }, [heatmapVisible, radius, opacity]);
+  }, [radius, opacity]);
 
   const updateHeatmapData = () => {
     let updatedHeatmapData: HeatmapData;
 
-    if (!heatmapVisible) {
+    if (!true) {
       updatedHeatmapData = { ...heatmapData, positions: [] };
     } else {
       updatedHeatmapData = {
@@ -106,12 +108,16 @@ const App = () => {
     <MuiThemeProvider theme={theme}>
       <SimpleAppBar />
       <Filter
-        heatmapVisible={heatmapVisible}
-        setHeatmapVisible={setHeatmapVisible}
         radius={radius}
         setRadius={handleSetRadius}
         opacity={opacity}
         setOpacity={handleSetOpacity}
+        filterFirmenname={filterFirmenname}
+        setFilterFirmenname={setFilterFirmenname}
+        filterSchadensart={filterSchadensart}
+        setFilterSchadensart={setFilterSchadensart}
+        datstellungsart={darstellungsart}
+        setDarstellungsart={setDarstellungsart}
       />
       <Heatmap
         heatmapData={heatmapData}
