@@ -93,9 +93,17 @@ const App = () => {
 
     if (heatmap !== null) {
       // @ts-ignore
-      heatmap.setData(new window.google.maps.MVCArray([...positions]));
+      heatmap.setData(new window.google.maps.MVCArray([...mapData()]));
     }
   }, [positions]);
+
+  const mapData = () => {
+    return positions.map(
+      value =>
+        // @ts-ignore
+        new window.google.maps.LatLng(value.lat, value.lng)
+    );
+  };
 
   return (
     <MuiThemeProvider theme={theme}>
