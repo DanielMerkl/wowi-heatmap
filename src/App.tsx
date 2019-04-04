@@ -93,16 +93,22 @@ const App = () => {
 
     if (heatmap !== null) {
       // @ts-ignore
-      heatmap.setData(new window.google.maps.MVCArray([...mapData()]));
+      heatmap.setData(new window.google.maps.MVCArray(mapData()));
     }
   }, [positions]);
 
   const mapData = () => {
-    return positions.map(
-      value =>
+    return positions
+      .filter(value => {
+        if (!value.lng || !value.lat) {
+          console.log("Fehlerhaftes Value");
+        }
+        return !value.lng || !value.lat;
+      })
+      .map(value => {
         // @ts-ignore
-        new window.google.maps.LatLng(value.lat, value.lng)
-    );
+        return new window.google.maps.LatLng(value.lat, value.lng);
+      });
   };
 
   return (

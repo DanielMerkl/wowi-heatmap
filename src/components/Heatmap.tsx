@@ -37,11 +37,10 @@ const Heatmap = (props: HeatmapProps) => {
   }, []);
 
   const mapData = () => {
-    return props.heatmapData.positions.map(
-      value =>
-        // @ts-ignore
-        new window.google.maps.LatLng(value.lat, value.lng)
-    );
+    return props.heatmapData.positions.map(value => {
+      // @ts-ignore
+      return new window.google.maps.LatLng(value.lat, value.lng);
+    });
   };
 
   return (
