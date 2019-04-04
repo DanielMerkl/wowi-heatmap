@@ -89,8 +89,6 @@ const App = () => {
   }, [heatmap]);
 
   useEffect(() => {
-    console.log("positions haben sich geändert...");
-
     if (heatmap !== null) {
       // @ts-ignore
       heatmap.setData(new window.google.maps.MVCArray(mapData()));
@@ -98,17 +96,10 @@ const App = () => {
   }, [positions]);
 
   const mapData = () => {
-    return positions
-      .filter(value => {
-        if (!value.lng || !value.lat) {
-          console.log("Fehlerhaftes Value");
-        }
-        return !value.lng || !value.lat;
-      })
-      .map(value => {
-        // @ts-ignore
-        return new window.google.maps.LatLng(value.lng, value.lat);
-      });
+    return positions.map(value => {
+      // @ts-ignore
+      return new window.google.maps.LatLng(value.lat, value.lng);
+    });
   };
 
   return (
