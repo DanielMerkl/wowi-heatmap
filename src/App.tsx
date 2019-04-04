@@ -107,7 +107,7 @@ const App = () => {
       })
       .map(value => {
         // @ts-ignore
-        return new window.google.maps.LatLng(value.lat, value.lng);
+        return new window.google.maps.LatLng(value.lng, value.lat);
       });
   };
 
