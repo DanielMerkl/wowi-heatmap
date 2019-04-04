@@ -5,6 +5,7 @@ import {
   InputLabel,
   MenuItem,
   OutlinedInput,
+  Paper,
   Select,
   Switch,
   TextField
@@ -58,17 +59,19 @@ const Filter = (props: FilterProps) => {
         onChange={e => setOpacity(Number(e.target.value))}
       />
 
-      <FormControlLabel
-        style={{ justifySelf: "center" }}
-        label="Sichtbarkeit"
-        control={
-          <Switch
-            checked={heatmapVisible}
-            onChange={() => setHeatmapVisible(!heatmapVisible)}
-            color="primary"
-          />
-        }
-      />
+      <Paper style={{ textAlign: "center" }} elevation={1}>
+        <FormControlLabel
+          style={{ marginTop: 4 }}
+          label="Sichtbarkeit"
+          control={
+            <Switch
+              checked={heatmapVisible}
+              onChange={() => setHeatmapVisible(!heatmapVisible)}
+              color="primary"
+            />
+          }
+        />
+      </Paper>
     </div>
   );
 };
