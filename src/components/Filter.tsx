@@ -1,42 +1,39 @@
 import React from "react";
 import {
   FormControl,
-  FormControlLabel,
   InputLabel,
   MenuItem,
   OutlinedInput,
-  Paper,
   Select,
-  Switch,
   TextField
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 
 export interface FilterProps {
-  radius: number;
-  setRadius: (radius: number) => void;
-  opacity: number;
-  setOpacity: (opacity: number) => void;
+  darstellungsart: string;
+  setDarstellungsart: (darstellungsart: string) => void;
   filterFirmenname: string;
   setFilterFirmenname: (firmenname: string) => void;
   filterSchadensart: string;
   setFilterSchadensart: (schadensart: string) => void;
-  datstellungsart: string;
-  setDarstellungsart: (darstellungsart: string) => void;
+  radius: number;
+  setRadius: (radius: number) => void;
+  opacity: number;
+  setOpacity: (opacity: number) => void;
 }
 
 const Filter = (props: FilterProps) => {
   const {
-    radius,
-    setRadius,
-    opacity,
-    setOpacity,
+    darstellungsart,
+    setDarstellungsart,
     filterFirmenname,
     setFilterFirmenname,
     filterSchadensart,
     setFilterSchadensart,
-    datstellungsart,
-    setDarstellungsart
+    radius,
+    setRadius,
+    opacity,
+    setOpacity
   } = props;
   const classes = useStyles();
 
@@ -46,19 +43,19 @@ const Filter = (props: FilterProps) => {
         <InputLabel>Darstellungsart</InputLabel>
         <Select
           input={<OutlinedInput labelWidth={110} />}
-          value={datstellungsart}
+          value={darstellungsart}
           onChange={e => {
             setFilterSchadensart("");
             setFilterFirmenname("");
             setDarstellungsart(e.target.value);
           }}
         >
-          <MenuItem value={"Versicherte Gebäude"}>Versicherte Gebäude</MenuItem>
+          <MenuItem value={"Gebäude"}>Gebäude</MenuItem>
           <MenuItem value={"Schäden"}>Schäden</MenuItem>
         </Select>
       </FormControl>
 
-      <FormControl variant="outlined" disabled={datstellungsart === "Schäden"}>
+      <FormControl variant="outlined" disabled={darstellungsart === "Schäden"}>
         <InputLabel>Firmenname</InputLabel>
         <Select
           input={<OutlinedInput labelWidth={92} />}
@@ -77,10 +74,7 @@ const Filter = (props: FilterProps) => {
         </Select>
       </FormControl>
 
-      <FormControl
-        variant="outlined"
-        disabled={datstellungsart === "Versicherte Gebäude"}
-      >
+      <FormControl variant="outlined" disabled={darstellungsart === "Gebäude"}>
         <InputLabel>Schadensart</InputLabel>
         <Select
           input={<OutlinedInput labelWidth={92} />}

@@ -1,68 +1,58 @@
 import React, { useEffect, useState } from "react";
 
-import { MuiThemeProvider } from "@material-ui/core";
+import { LinearProgress, MuiThemeProvider } from "@material-ui/core";
 
 import SimpleAppBar from "./components/SimpleAppBar";
 import Heatmap from "./components/Heatmap";
 import theme from "./utils/theme";
 import Filter from "./components/Filter";
-import { HeatmapData } from "./types/HeatmapData";
-import { initialHeatmap } from "./utils/initialHeatmap";
 import Api from "./utils/Api";
-import { CustomPosition } from "./types/CustomPosition";
+import { Schaden } from "./types/Schaden";
+import { Gebaeude } from "./types/Gebaeude";
+import { mapToCoordinates } from "./utils/mapToCoordinates";
 
 const App = () => {
+  const [heatmap, setHeatmap] = useState(null);
   const [radius, setRadius] = useState(50);
   const [opacity, setOpacity] = useState(0.8);
-  const [positions, setPositions] = useState<Array<CustomPosition>>([
-    { lat: 51.2366927, lng: 6.7754234 },
-    { lat: 51.223, lng: 6.783 },
-    { lat: 51.23, lng: 6.77 },
-    { lat: 51.24, lng: 6.78 },
-    { lat: 51.25, lng: 6.79 },
-    { lat: 51.26, lng: 6.8 }
-  ]);
-  const [heatmap, setHeatmap] = useState(null);
-  const [heatmapData, setHeatmapData] = useState<HeatmapData>({
-    ...initialHeatmap
-  });
 
+  const [loadingData, setLoadingData] = useState(true);
+  const [gebaeude, setGebaeude] = useState<Array<Gebaeude>>([]);
+  const [schaeden, setSchaeden] = useState<Array<Schaden>>([]);
+
+  const [darstellungsart, setDarstellungsart] = useState("Gebäude");
   const [filterFirmenname, setFilterFirmenname] = useState("");
   const [filterSchadensart, setFilterSchadensart] = useState("");
-  const [darstellungsart, setDarstellungsart] = useState("Versicherte Gebäude");
-
-  const fetchHeatmap = async () => {
-    try {
-      const response = await Api.fetchHeatmap();
-      // TODO: positions setzen
-      setPositions(response.data);
-      updateHeatmapData();
-    } catch (e) {
-      console.error(e);
-    }
-  };
 
   useEffect(() => {
-    fetchHeatmap();
+    fetchData();
   }, []);
 
   useEffect(() => {
-    updateHeatmapData();
-  }, [radius, opacity]);
+    handleSetRadius(radius);
+    handleSetOpacity(opacity);
+  }, [heatmap]);
 
-  const updateHeatmapData = () => {
-    let updatedHeatmapData: HeatmapData;
+  useEffect(() => {
+    updateHeatmap();
+  }, [darstellungsart, gebaeude, schaeden]);
 
-    if (!true) {
-      updatedHeatmapData = { ...heatmapData, positions: [] };
-    } else {
-      updatedHeatmapData = {
-        ...heatmapData,
-        positions: [...positions],
-        options: { radius, opacity }
-      };
+  const fetchData = async () => {
+    try {
+      setLoadingData(true);
+      // const gebaeudeResponse = await Api.fetchGebaeude();
+      // setGebaeude(gebaeudeResponse.data);
+      //
+      // const schaedenResponse = await Api.fetchSchaeden();
+      // setSchaeden(schaedenResponse.data);
+
+      setGebaeude([{ lat: 51.2366927, lng: 6.7754234, firma: "Hallo" }]);
+      setSchaeden([{ lat: 51.236, lng: 6.775, schadensart: "Hallo" }]);
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setLoadingData(false);
     }
-    setHeatmapData(updatedHeatmapData);
   };
 
   const handleSetRadius = (radius: number) => {
@@ -81,50 +71,51 @@ const App = () => {
     setOpacity(opacity);
   };
 
-  const handleSetHeatmap = (heatmap: any) => {
-    setHeatmap(heatmap);
-  };
+  const updateHeatmap = () => {
+    let filteredData;
+    let coordinates;
 
-  useEffect(() => {
-    handleSetOpacity(opacity);
-    handleSetRadius(radius);
-  }, [heatmap]);
-
-  useEffect(() => {
-    if (heatmap !== null) {
-      // @ts-ignore
-      heatmap.setData(new window.google.maps.MVCArray(mapData()));
+    if (darstellungsart === "Gebäude") {
+      if (filterFirmenname === "") {
+        filteredData = gebaeude;
+      } else {
+        filteredData = gebaeude.filter(el => el.firma === filterFirmenname);
+      }
+    } else {
+      if (filterSchadensart === "") {
+        filteredData = schaeden;
+      } else {
+        filteredData = schaeden.filter(
+          el => el.schadensart === filterSchadensart
+        );
+      }
     }
-  }, [positions]);
 
-  const mapData = () => {
-    return positions.map(value => {
+    coordinates = mapToCoordinates(filteredData);
+
+    if (heatmap !== null && coordinates !== null) {
       // @ts-ignore
-      return new window.google.maps.LatLng(value.lat, value.lng);
-    });
+      heatmap.setData(new window.google.maps.MVCArray(coordinates));
+    }
   };
 
   return (
     <MuiThemeProvider theme={theme}>
       <SimpleAppBar />
+      <div style={{ height: 1 }}>{loadingData && <LinearProgress />}</div>
       <Filter
-        radius={radius}
-        setRadius={handleSetRadius}
-        opacity={opacity}
-        setOpacity={handleSetOpacity}
+        darstellungsart={darstellungsart}
+        setDarstellungsart={setDarstellungsart}
         filterFirmenname={filterFirmenname}
         setFilterFirmenname={setFilterFirmenname}
         filterSchadensart={filterSchadensart}
         setFilterSchadensart={setFilterSchadensart}
-        datstellungsart={darstellungsart}
-        setDarstellungsart={setDarstellungsart}
-      />
-      <Heatmap
-        heatmapData={heatmapData}
+        radius={radius}
         setRadius={handleSetRadius}
+        opacity={opacity}
         setOpacity={handleSetOpacity}
-        setHeatmap={handleSetHeatmap}
       />
+      <Heatmap setHeatmap={setHeatmap} />
     </MuiThemeProvider>
   );
 };

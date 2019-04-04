@@ -3,45 +3,27 @@ import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/styles";
 import { Paper } from "@material-ui/core";
 
-import { HeatmapData } from "../types/HeatmapData";
 import { ergoStandort } from "../utils/ergoStandort";
 
 export interface HeatmapProps {
-  heatmapData: HeatmapData;
   setHeatmap: (heatmap: any) => void;
-  setRadius: (radius: number) => void;
-  setOpacity: (opacity: number) => void;
 }
 
 const Heatmap = (props: HeatmapProps) => {
   const classes = useStyles();
 
   useEffect(() => {
-    console.log("mounting map...");
     // @ts-ignore
     const map = new window.google.maps.Map(document.getElementById("map"), {
       center: ergoStandort,
-      zoom: 14
+      zoom: 13
     });
 
     // @ts-ignore
-    let dataArray = new window.google.maps.MVCArray(mapData());
-
-    // @ts-ignore
-    const heatmap = new window.google.maps.visualization.HeatmapLayer({
-      data: dataArray
-    });
+    const heatmap = new window.google.maps.visualization.HeatmapLayer({});
     heatmap.setMap(map);
-
     props.setHeatmap(heatmap);
   }, []);
-
-  const mapData = () => {
-    return props.heatmapData.positions.map(value => {
-      // @ts-ignore
-      return new window.google.maps.LatLng(value.lat, value.lng);
-    });
-  };
 
   return (
     <Paper className={classes.wrapper}>
@@ -52,10 +34,9 @@ const Heatmap = (props: HeatmapProps) => {
 
 const useStyles = makeStyles({
   wrapper: {
-    height: 600,
-    minHeight: 300,
+    height: "calc(100vh - 184px)",
     width: window.innerWidth * 0.9,
-    minWidth: 600,
+    minWidth: "500px",
     margin: "auto",
     marginTop: 16
   }

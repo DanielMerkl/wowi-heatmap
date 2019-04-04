@@ -1,7 +1,11 @@
 import axios from "axios";
 
-const fetchHeatmap = async () => {
-  return await axios.get("/api/Coordinates"); // TODO: Endpunkt konkretisieren
+const fetchGebaeude = async () => {
+  return await axios.get("/api/Gebaeude"); // TODO: Endpunkt anpassen
 };
 
-export default { fetchHeatmap };
+const fetchSchaeden = async () => {
+  return await axios.get("/api/Schaeden"); // TODO: Endpunkt anpassen
+};
+
+export default { fetchGebaeude, fetchSchaeden };
