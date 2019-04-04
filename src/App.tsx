@@ -1,10 +1,16 @@
 import React from "react";
-import Heatmap from "./components/Heatmap/Heatmap";
+
+import { MuiThemeProvider } from "@material-ui/core";
+
+import SimpleAppBar from "./components/SimpleAppBar";
+import Heatmap from "./components/Heatmap";
+import theme from "./utils/theme";
 
 const App = () => (
-  <div>
+  <MuiThemeProvider theme={theme}>
+    <SimpleAppBar />
     <Heatmap />
-  </div>
+  </MuiThemeProvider>
 );
 
 export default App;

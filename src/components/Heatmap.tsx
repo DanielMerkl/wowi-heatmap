@@ -6,9 +6,10 @@ import { Paper, CircularProgress } from "@material-ui/core";
 // @ts-ignore
 import GoogleMapReact from "google-map-react";
 
-import Api from "../../utils/Api";
-import { HeatmapData } from "../../types/heatmapData";
-import { initialHeatmap } from "../../utils/initialHeatmap";
+import Api from "../utils/Api";
+import { HeatmapData } from "../types/heatmapData";
+import { initialHeatmap } from "../utils/initialHeatmap";
+import { MAPS_API_KEY } from "../utils/mapsApiKey";
 
 const Heatmap = () => {
   const ergoStandort = { lat: 51.2366927, lng: 6.7754234 };
@@ -48,7 +49,8 @@ const Heatmap = () => {
         defaultCenter={ergoStandort}
         defaultZoom={14}
         bootstrapURLKeys={{
-          key: "AIzaSyCphMDlf9OMMCnLtfm-RZATF46h_vluDak",
+          key: MAPS_API_KEY,
+          // key: "xxx",
           libraries: "visualization"
         }}
         heatmapLibrary
