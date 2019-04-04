@@ -1,4 +1,4 @@
-import { HeatmapData } from "../types/heatmapData";
+import { HeatmapData } from "../types/HeatmapData";
 
 export const initialHeatmap: HeatmapData = {
   positions: [

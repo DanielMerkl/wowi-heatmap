@@ -1,8 +1,7 @@
+import { CustomPosition } from "./CustomPosition";
+
 export interface HeatmapData {
-  positions: {
-    lat: number;
-    lng: number;
-  }[];
+  positions: Array<CustomPosition>;
   options: {
     radius: number;
     opacity: number;
