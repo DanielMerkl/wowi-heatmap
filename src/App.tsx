@@ -31,9 +31,9 @@ const App = () => {
 
   const fetchHeatmap = async () => {
     try {
-      // const response = await Api.fetchHeatmap();
+      const response = await Api.fetchHeatmap();
       // TODO: positions setzen
-      // setPositions(response.data);
+      setPositions(response.data);
       updateHeatmapData();
     } catch (e) {
       console.error(e);
@@ -87,6 +87,15 @@ const App = () => {
     handleSetOpacity(opacity);
     handleSetRadius(radius);
   }, [heatmap]);
+
+  useEffect(() => {
+    console.log("positions haben sich geändert...");
+
+    if (heatmap !== null) {
+      // @ts-ignore
+      heatmap.setData(new window.google.maps.MVCArray([...positions]));
+    }
+  }, [positions]);
 
   return (
     <MuiThemeProvider theme={theme}>

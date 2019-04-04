@@ -25,10 +25,13 @@ const Heatmap = (props: HeatmapProps) => {
     });
 
     // @ts-ignore
+    let dataArray = new window.google.maps.MVCArray(mapData());
+
+    // @ts-ignore
     const heatmap = new window.google.maps.visualization.HeatmapLayer({
-      data: mapData(),
-      map: map
+      data: dataArray
     });
+    heatmap.setMap(map);
 
     props.setHeatmap(heatmap);
   }, []);
