@@ -68,7 +68,7 @@ const useStyles = makeStyles({
     maxWidth: window.innerWidth * 0.9,
     minWidth: 600,
     margin: "auto",
-    marginTop: 48
+    marginTop: 16
   }
 });
 
