@@ -63,7 +63,7 @@ const App = () => {
         { lat: 51.236, lng: 6.775, firma: "Fullhouse GmbH" },
         { lat: 51.23, lng: 6.77, firma: "Flamingo Work GmbH" }
       ]);
-      setSchaeden([{ lat: 51.236, lng: 6.775, schadensart: "0001" }]);
+      setSchaeden([{ lat: 51.236, lng: 6.775, SchadenCode: "0001" }]);
     } catch (e) {
       console.error(e);
     } finally {
@@ -102,7 +102,7 @@ const App = () => {
         filteredData = schaeden;
       } else {
         filteredData = schaeden.filter(
-          el => el.schadensart === filterSchadensart
+          el => el.SchadenCode === filterSchadensart
         );
       }
     }

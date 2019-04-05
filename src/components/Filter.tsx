@@ -70,7 +70,9 @@ const Filter = (props: FilterProps) => {
           <MenuItem value={"Life Architecture GmbH"}>
             Life Architecture GmbH
           </MenuItem>
-          <MenuItem value={"Smile Lighting GmbH"}>Smile Lighting GmbH</MenuItem>
+          <MenuItem value={"Smile Lightning GmbH"}>
+            Smile Lightning GmbH
+          </MenuItem>
         </Select>
       </FormControl>
 
