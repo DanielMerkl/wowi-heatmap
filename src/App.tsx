@@ -42,7 +42,13 @@ const App = () => {
 
   useEffect(() => {
     updateHeatmap();
-  }, [darstellungsart, gebaeude, schaeden]);
+  }, [
+    darstellungsart,
+    gebaeude,
+    schaeden,
+    filterFirmenname,
+    filterSchadensart
+  ]);
 
   const fetchData = async () => {
     try {
@@ -53,8 +59,11 @@ const App = () => {
       // const schaedenResponse = await Api.fetchSchaeden();
       // setSchaeden(schaedenResponse.data);
 
-      setGebaeude([{ lat: 51.2366927, lng: 6.7754234, firma: "Hallo" }]);
-      setSchaeden([{ lat: 51.236, lng: 6.775, schadensart: "Hallo" }]);
+      setGebaeude([
+        { lat: 51.236, lng: 6.775, firma: "Fullhouse GmbH" },
+        { lat: 51.23, lng: 6.77, firma: "Flamingo Work GmbH" }
+      ]);
+      setSchaeden([{ lat: 51.236, lng: 6.775, schadensart: "0001" }]);
     } catch (e) {
       console.error(e);
     } finally {

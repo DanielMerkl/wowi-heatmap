@@ -59,8 +59,8 @@ const Filter = (props: FilterProps) => {
         <InputLabel>Firmenname</InputLabel>
         <Select
           input={<OutlinedInput labelWidth={92} />}
-          value={filterSchadensart}
-          onChange={e => setFilterSchadensart(e.target.value)}
+          value={filterFirmenname}
+          onChange={e => setFilterFirmenname(e.target.value)}
         >
           <MenuItem value={""}>-</MenuItem>
           <MenuItem value={"Fullhouse GmbH"}>Fullhouse GmbH</MenuItem>
@@ -78,8 +78,8 @@ const Filter = (props: FilterProps) => {
         <InputLabel>Schadensart</InputLabel>
         <Select
           input={<OutlinedInput labelWidth={92} />}
-          value={filterFirmenname}
-          onChange={e => setFilterFirmenname(e.target.value)}
+          value={filterSchadensart}
+          onChange={e => setFilterSchadensart(e.target.value)}
         >
           <MenuItem value={""}>-</MenuItem>
           <MenuItem value={"0001"}>Feuer</MenuItem>
