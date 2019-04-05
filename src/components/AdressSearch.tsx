@@ -52,6 +52,11 @@ const AdressSearch = (props: AdressSearchProps) => {
     }
   };
 
+  const handleZuruecksetzen = () => {
+    props.removeMarker();
+    setAdresse("");
+  };
+
   return (
     <div className={classes.root}>
       <TextField
@@ -70,7 +75,7 @@ const AdressSearch = (props: AdressSearchProps) => {
           variant="outlined"
           color="primary"
           onClick={handleSearch}
-          style={{ marginTop: 12, marginLeft: 16 }}
+          style={{ marginTop: 12, marginLeft: 8 }}
           disabled={loading}
         >
           <GpsFixed style={{ marginRight: 16 }} />
@@ -78,6 +83,16 @@ const AdressSearch = (props: AdressSearchProps) => {
         </Button>
         {loading && (
           <CircularProgress size={24} className={classes.buttonProgress} />
+        )}
+        {props.marker !== null && (
+          <Button
+            style={{ marginTop: 12, marginLeft: 8 }}
+            variant="outlined"
+            color="primary"
+            onClick={handleZuruecksetzen}
+          >
+            Zurücksetzen
+          </Button>
         )}
       </div>
     </div>
