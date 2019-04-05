@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 
 import { Button, CircularProgress, TextField } from "@material-ui/core";
 import { GpsFixed } from "@material-ui/icons";
@@ -8,7 +8,9 @@ import { makeStyles } from "@material-ui/styles";
 import { ERGO_ROT } from "../utils/colors";
 
 export interface AdressSearchProps {
+  marker: any;
   setCenter: (coordinate: Coordinate) => void;
+  removeMarker: () => void;
 }
 
 const AdressSearch = (props: AdressSearchProps) => {
@@ -16,6 +18,13 @@ const AdressSearch = (props: AdressSearchProps) => {
 
   const [adresse, setAdresse] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const handleAdresseChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.value === "" && props.marker !== null) {
+      props.removeMarker();
+    }
+    setAdresse(e.target.value);
+  };
 
   const handleSearch = async () => {
     if (adresse === "") {
@@ -49,7 +58,12 @@ const AdressSearch = (props: AdressSearchProps) => {
         style={{ width: 300 }}
         label="Adresse"
         value={adresse}
-        onChange={e => setAdresse(e.target.value)}
+        onChange={handleAdresseChange}
+        onKeyDown={e => {
+          if (e.key === "Enter") {
+            handleSearch();
+          }
+        }}
       />
       <div style={{ position: "relative" }}>
         <Button

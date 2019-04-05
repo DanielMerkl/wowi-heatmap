@@ -12,11 +12,14 @@ import { Gebaeude } from "./types/Gebaeude";
 import { mapToCoordinates } from "./utils/mapToCoordinates";
 import { makeStyles } from "@material-ui/styles";
 import AdressSearch from "./components/AdressSearch";
+import { Coordinate } from "./types/Coordinate";
 
 const App = () => {
   const classes = useStyles();
 
+  const [map, setMap] = useState(null);
   const [heatmap, setHeatmap] = useState(null);
+  const [globalMarker, setGlobalMarker] = useState(null);
   const [radius, setRadius] = useState(50);
   const [opacity, setOpacity] = useState(0.8);
 
@@ -103,17 +106,39 @@ const App = () => {
     }
   };
 
-  const setCenter = (coordinate: { lat: number; lng: number }) => {
-    // TODO: implementieren
+  const setCenter = (coordinate: Coordinate) => {
+    if (map !== null) {
+      // @ts-ignore
+      map.setCenter(coordinate);
+
+      // @ts-ignore
+      const marker = new window.google.maps.Marker({
+        position: coordinate,
+        map: map
+      });
+      setGlobalMarker(marker);
+    }
+  };
+
+  const removeMarker = () => {
+    if (globalMarker !== null) {
+      // @ts-ignore
+      globalMarker.setMap(null);
+      setGlobalMarker(null);
+    }
   };
 
   return (
     <MuiThemeProvider theme={theme}>
       <SimpleAppBar />
       <div style={{ height: 1 }}>{loadingData && <LinearProgress />}</div>
-      <AdressSearch setCenter={setCenter} />
+      <AdressSearch
+        marker={globalMarker}
+        setCenter={setCenter}
+        removeMarker={removeMarker}
+      />
       <div className={classes.gridWrapper}>
-        <Heatmap setHeatmap={setHeatmap} />
+        <Heatmap setMap={setMap} setHeatmap={setHeatmap} />
         <Filter
           darstellungsart={darstellungsart}
           setDarstellungsart={setDarstellungsart}

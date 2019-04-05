@@ -6,6 +6,7 @@ import { Paper } from "@material-ui/core";
 import { ergoStandort } from "../utils/ergoStandort";
 
 export interface HeatmapProps {
+  setMap: (map: any) => void;
   setHeatmap: (heatmap: any) => void;
 }
 
@@ -22,6 +23,7 @@ const Heatmap = (props: HeatmapProps) => {
     // @ts-ignore
     const heatmap = new window.google.maps.visualization.HeatmapLayer({});
     heatmap.setMap(map);
+    props.setMap(map);
     props.setHeatmap(heatmap);
   }, []);
 
