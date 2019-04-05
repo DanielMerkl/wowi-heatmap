@@ -79,7 +79,7 @@ const AdressSearch = (props: AdressSearchProps) => {
           disabled={loading}
         >
           <GpsFixed style={{ marginRight: 16 }} />
-          Prüfen
+          Suchen
         </Button>
         {loading && (
           <CircularProgress size={24} className={classes.buttonProgress} />
