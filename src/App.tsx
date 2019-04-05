@@ -53,17 +53,11 @@ const App = () => {
   const fetchData = async () => {
     try {
       setLoadingData(true);
-      // const gebaeudeResponse = await Api.fetchGebaeude();
-      // setGebaeude(gebaeudeResponse.data);
-      //
-      // const schaedenResponse = await Api.fetchSchaeden();
-      // setSchaeden(schaedenResponse.data);
+      const gebaeudeResponse = await Api.fetchGebaeude();
+      setGebaeude(gebaeudeResponse.data);
 
-      setGebaeude([
-        { lat: 51.236, lng: 6.775, firma: "Fullhouse GmbH" },
-        { lat: 51.23, lng: 6.77, firma: "Flamingo Work GmbH" }
-      ]);
-      setSchaeden([{ lat: 51.236, lng: 6.775, SchadenCode: "0001" }]);
+      const schaedenResponse = await Api.fetchSchaeden();
+      setSchaeden(schaedenResponse.data);
     } catch (e) {
       console.error(e);
     } finally {
