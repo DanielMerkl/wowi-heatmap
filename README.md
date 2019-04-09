@@ -1,44 +1,90 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# WoWi Heatmap
+Dieses Projekt umfasst die Visualisierung der Daten aus der WoWi-Datenbank mithilfe der Google Maps API.
 
-## Available Scripts
+## Motivation
+Zur **Vermeidung von Risikokumulen** (große Anzahl von Risiken in geographischer Nähe zueinander) ist eine geographische Analyse des Bestandes notwendig.
 
-In the project directory, you can run:
+Außerdem sollen für eine **zeitgemäße Tarifierung** Analysen der Schadenhäufigkeiten und Schadenursachen durchgeführt werden können.
 
-### `npm start`
+## Aktuelle Funktionen der Oberfläche
+Derzeit können folgende Daten geographisch visualisiert werden:
+- Verteilungen der Bestände
+- Ballungen von Schäden
+- Schadensursachen
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Verwendete Technologien / APIs im Frontend
+- [React](https://reactjs.org/)
+- [Redux](https://redux.js.org/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Material-UI](https://material-ui.com/)
+- [Google Maps API](https://developers.google.com/maps/documentation/javascript/tutorial)
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+## Informationen zur Google Maps API
+Um die Oberfläche nutzen zu können, wird ein Google [Maps API Key](https://developers.google.com/maps/documentation/embed/get-api-key) benötigt.
 
-### `npm test`
+Weitere Informationen:
+- [Dokumentation](https://developers.google.com/maps/documentation/javascript/tutorial)
+- [Heatmaps](https://developers.google.com/maps/documentation/javascript/heatmaplayer)
+- [Geocoding](https://developers.google.com/maps/documentation/javascript/geocoding)
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Oberfläche starten
+1. Repository über folgenden Befehl klonen: `git clone https://github.com/DanielMerkl/wowi-heatmap.git`
+2. In den Ordner navigieren und `npm install` ausführen (hierfür wird [NodeJS](https://nodejs.org/en/) benötigt)
+3. Den [Google Maps API Key](https://developers.google.com/maps/documentation/embed/get-api-key) in folgenden Dateien einfügen: index.html & mapsApi.ts
+4. Oberfläche mit dem Befehl `npm start` starten
 
-### `npm run build`
+## Format der Daten aus dem Backend
+Für die Darstellung auf der Karte werden Längen- und Breitengrad benötigt.
+Ein Objekt ohne zusätliche Metadaten würde folgendermaßen aussehen:
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```
+const einfacherStandort = {
+    lat: 51.2366927,
+    lng: 6.7754234
+}
+```
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+Um die Koordinaten besser interpretieren und analysieren zu können, müssen Metadaten sinnvoll verknüpft werden.
+Beispiele für Metadaten:
+- Firmenname
+- Schadensart
+- Datum
+- ...
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```
+const sinnvollerStandort = {
+    lat: 51.2366927,
+    lgn: 6.7754234,
+    firmenname: 'Beispiel GmbH',
+    schadensart: 'Feuer',
+    datum: 01.04.2014
+}
+```
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+Die einzelnen Objekte sollten dem Frontend als Liste zur Verfügung gestellt werden:
+```
+const schadenListe = [
+    {
+        lat: 52.2363321,
+        lgn: 6.7754234,
+        firmenname: 'Beispiel GmbH',
+        schadensart: 'Feuer',
+        datum: 01.04.2014
+    },
+    {
+        lat: 50.4364927,
+        lgn: 6.7757237,
+        firmenname: 'Muster AG',
+        schadensart: 'Überschwemmung',
+        datum: 12.07.2017
+    },
+    {
+        lat: 51.2366927,
+        lgn: 8.7354254,
+        firmenname: 'Example GmbH',
+        schadensart: 'Vandalismus',
+        datum: 01.01.2018
+    },
+    ...
+]
+```
