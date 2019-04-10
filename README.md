@@ -1,6 +1,8 @@
 # WoWi Heatmap
 Dieses Projekt umfasst die Visualisierung der Daten aus der WoWi-Datenbank mithilfe der Google Maps API.
 
+![](/images/WoWi-Heatmap.png)
+
 ## Motivation
 Zur **Vermeidung von Risikokumulen** (große Anzahl von Risiken in geographischer Nähe zueinander) ist eine geographische Analyse des Bestandes notwendig.
 
