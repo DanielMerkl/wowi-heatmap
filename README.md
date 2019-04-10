@@ -20,7 +20,7 @@ Derzeit können folgende Daten geographisch visualisiert werden:
 - [Google Maps API](https://developers.google.com/maps/documentation/javascript/tutorial)
 
 ## Informationen zur Google Maps API
-Um die Oberfläche nutzen zu können, wird ein Google [Maps API Key](https://developers.google.com/maps/documentation/embed/get-api-key) benötigt.
+Um die Oberfläche nutzen zu können, wird ein [Google Maps API Key](https://developers.google.com/maps/documentation/embed/get-api-key) benötigt.
 
 Weitere Informationen:
 - [Dokumentation](https://developers.google.com/maps/documentation/javascript/tutorial)
