@@ -6,7 +6,7 @@ Dieses Projekt umfasst die Visualisierung der Daten aus der WoWi-Datenbank mithi
 ## Motivation
 Zur **Vermeidung von Risikokumulen** (große Anzahl von Risiken in geographischer Nähe zueinander) ist eine geographische Analyse des Bestandes notwendig.
 
-Außerdem sollen für eine **zeitgemäße Tarifierung** Analysen der Schadenhäufigkeiten und Schadenursachen durchgeführt werden können.
+Außerdem sollen Analysen der Schadenhäufigkeiten und Schadenursachen durchgeführt werden können, um eine **zeitgemäße Tarifierung** zu ermöglichen.
 
 ## Aktuelle Funktionen der Oberfläche
 Derzeit können folgende Daten geographisch visualisiert werden:
