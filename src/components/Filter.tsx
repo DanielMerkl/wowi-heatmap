@@ -50,7 +50,7 @@ const Filter = (props: FilterProps) => {
             setDarstellungsart(e.target.value);
           }}
         >
-          <MenuItem value={"Gebäude"}>Gebäude</MenuItem>
+          <MenuItem value={"Gebäude"}>Bestand</MenuItem>
           <MenuItem value={"Schäden"}>Schäden</MenuItem>
         </Select>
       </FormControl>

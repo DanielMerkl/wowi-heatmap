@@ -1,11 +1,11 @@
 import axios from "axios";
 
-const fetchGebaeude = async () => {
-  return await axios.get("/api/Coordinates");
+const fetchBestaende = async () => {
+  return await axios.get("/api/bestaende");
 };
 
 const fetchSchaeden = async () => {
-  return await axios.get("/api/Schaeden");
+  return await axios.get("/api/schaeden");
 };
 
-export default { fetchGebaeude, fetchSchaeden };
+export default { fetchBestaende, fetchSchaeden };

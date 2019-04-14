@@ -8,7 +8,7 @@ import theme from "./utils/theme";
 import Filter from "./components/Filter";
 import Api from "./utils/Api";
 import { Schaden } from "./types/Schaden";
-import { Gebaeude } from "./types/Gebaeude";
+import { Bestand } from "./types/Bestand";
 import { mapToCoordinates } from "./utils/mapToCoordinates";
 import { makeStyles } from "@material-ui/styles";
 import AdressSearch from "./components/AdressSearch";
@@ -24,7 +24,7 @@ const App = () => {
   const [opacity, setOpacity] = useState(0.8);
 
   const [loadingData, setLoadingData] = useState(true);
-  const [gebaeude, setGebaeude] = useState<Array<Gebaeude>>([]);
+  const [gebaeude, setGebaeude] = useState<Array<Bestand>>([]);
   const [schaeden, setSchaeden] = useState<Array<Schaden>>([]);
 
   const [darstellungsart, setDarstellungsart] = useState("Gebäude");
@@ -83,7 +83,7 @@ const App = () => {
 
   const updateHeatmap = () => {
     let filteredData;
-    let coordinates;
+    let coordinates: Array<Coordinate>;
 
     if (darstellungsart === "Gebäude") {
       if (filterFirmenname === "") {
