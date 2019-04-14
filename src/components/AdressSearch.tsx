@@ -2,7 +2,6 @@ import React, { ChangeEvent, useState } from "react";
 
 import { Button, CircularProgress, TextField } from "@material-ui/core";
 import { GpsFixed } from "@material-ui/icons";
-import { GEOCODE_BASE_URL, MAPS_API_KEY } from "../utils/mapsApi";
 import { Coordinate } from "../types/Coordinate";
 import { makeStyles } from "@material-ui/styles";
 import { ERGO_ROT } from "../utils/colors";
@@ -11,62 +10,26 @@ export interface AdressSearchProps {
   marker: any;
   setCenter: (coordinate: Coordinate) => void;
   removeMarker: () => void;
+  adresse: string;
+  handleAdresseChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  handleSearch: () => void;
+  handleReset: () => void;
+  loading: boolean;
 }
 
 const AdressSearch = (props: AdressSearchProps) => {
   const classes = useStyles();
-
-  const [adresse, setAdresse] = useState("");
-  const [loading, setLoading] = useState(false);
-
-  const handleAdresseChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value === "" && props.marker !== null) {
-      props.removeMarker();
-    }
-    setAdresse(e.target.value);
-  };
-
-  const handleSearch = async () => {
-    if (adresse === "") {
-      return;
-    }
-
-    try {
-      setLoading(true);
-
-      const parameter = adresse.replace(" ", "+");
-      const url = `${GEOCODE_BASE_URL}${parameter}&key=${MAPS_API_KEY}`;
-      const response = await fetch(url);
-      const data = await response.json();
-
-      if (data.results.length <= 0) {
-        throw new Error("Es konnten keine Koordinaten gefunden werden!");
-      }
-
-      const coordinate: Coordinate = { ...data.results[0].geometry.location };
-      props.setCenter(coordinate);
-    } catch (e) {
-      console.error(e);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleZuruecksetzen = () => {
-    props.removeMarker();
-    setAdresse("");
-  };
 
   return (
     <div className={classes.root}>
       <TextField
         style={{ width: 300 }}
         label="Adresse"
-        value={adresse}
-        onChange={handleAdresseChange}
+        value={props.adresse}
+        onChange={props.handleAdresseChange}
         onKeyDown={e => {
           if (e.key === "Enter") {
-            handleSearch();
+            props.handleSearch();
           }
         }}
       />
@@ -74,14 +37,14 @@ const AdressSearch = (props: AdressSearchProps) => {
         <Button
           variant="outlined"
           color="primary"
-          onClick={handleSearch}
+          onClick={props.handleSearch}
           style={{ marginTop: 12, marginLeft: 8 }}
-          disabled={loading}
+          disabled={props.loading}
         >
           <GpsFixed style={{ marginRight: 16 }} />
           Suchen
         </Button>
-        {loading && (
+        {props.loading && (
           <CircularProgress size={24} className={classes.buttonProgress} />
         )}
         {props.marker !== null && (
@@ -89,7 +52,7 @@ const AdressSearch = (props: AdressSearchProps) => {
             style={{ marginTop: 12, marginLeft: 8 }}
             variant="outlined"
             color="primary"
-            onClick={handleZuruecksetzen}
+            onClick={props.handleReset}
           >
             Zurücksetzen
           </Button>

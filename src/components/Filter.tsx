@@ -8,33 +8,28 @@ import {
   TextField
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
+import { Coordinate } from "../types/Coordinate";
+import { Bestand } from "../types/Bestand";
+import { Schaden } from "../types/Schaden";
 
-export interface FilterProps {
+interface FilterProps {
+  radius: number;
+  setRadius: (radius: number) => void;
+  opacity: number;
+  setOpacity: (opacity: number) => void;
+  bestaende: Array<Bestand>;
+  schaeden: Array<Schaden>;
+  setPoints: (points: Array<Coordinate>) => void;
+  map: any;
   darstellungsart: string;
   setDarstellungsart: (darstellungsart: string) => void;
   filterFirmenname: string;
   setFilterFirmenname: (firmenname: string) => void;
   filterSchadensart: string;
   setFilterSchadensart: (schadensart: string) => void;
-  radius: number;
-  setRadius: (radius: number) => void;
-  opacity: number;
-  setOpacity: (opacity: number) => void;
 }
 
 const Filter = (props: FilterProps) => {
-  const {
-    darstellungsart,
-    setDarstellungsart,
-    filterFirmenname,
-    setFilterFirmenname,
-    filterSchadensart,
-    setFilterSchadensart,
-    radius,
-    setRadius,
-    opacity,
-    setOpacity
-  } = props;
   const classes = useStyles();
 
   return (
@@ -43,24 +38,27 @@ const Filter = (props: FilterProps) => {
         <InputLabel>Darstellungsart</InputLabel>
         <Select
           input={<OutlinedInput labelWidth={110} />}
-          value={darstellungsart}
+          value={props.darstellungsart}
           onChange={e => {
-            setFilterSchadensart("");
-            setFilterFirmenname("");
-            setDarstellungsart(e.target.value);
+            props.setFilterSchadensart("");
+            props.setFilterFirmenname("");
+            props.setDarstellungsart(e.target.value);
           }}
         >
-          <MenuItem value={"Gebäude"}>Bestand</MenuItem>
+          <MenuItem value={"Bestand"}>Bestand</MenuItem>
           <MenuItem value={"Schäden"}>Schäden</MenuItem>
         </Select>
       </FormControl>
 
-      <FormControl variant="outlined" disabled={darstellungsart === "Schäden"}>
+      <FormControl
+        variant="outlined"
+        disabled={props.darstellungsart === "Schäden"}
+      >
         <InputLabel>Firmenname</InputLabel>
         <Select
           input={<OutlinedInput labelWidth={92} />}
-          value={filterFirmenname}
-          onChange={e => setFilterFirmenname(e.target.value)}
+          value={props.filterFirmenname}
+          onChange={e => props.setFilterFirmenname(e.target.value)}
         >
           <MenuItem value={""}>-</MenuItem>
           <MenuItem value={"Fullhouse GmbH"}>Fullhouse GmbH</MenuItem>
@@ -74,12 +72,15 @@ const Filter = (props: FilterProps) => {
         </Select>
       </FormControl>
 
-      <FormControl variant="outlined" disabled={darstellungsart === "Gebäude"}>
+      <FormControl
+        variant="outlined"
+        disabled={props.darstellungsart === "Bestand"}
+      >
         <InputLabel>Schadensart</InputLabel>
         <Select
           input={<OutlinedInput labelWidth={92} />}
-          value={filterSchadensart}
-          onChange={e => setFilterSchadensart(e.target.value)}
+          value={props.filterSchadensart}
+          onChange={e => props.setFilterSchadensart(e.target.value)}
         >
           <MenuItem value={""}>-</MenuItem>
           <MenuItem value={"0001"}>Feuer</MenuItem>
@@ -93,19 +94,19 @@ const Filter = (props: FilterProps) => {
       <TextField
         variant="outlined"
         label="Radius"
-        value={radius === 0 ? "" : radius}
+        value={props.radius === 0 ? "" : props.radius}
         type="number"
         inputProps={{ min: 1, step: 1 }}
-        onChange={e => setRadius(Number(e.target.value))}
+        onChange={e => props.setRadius(Number(e.target.value))}
       />
 
       <TextField
         variant="outlined"
         label="Deckkraft"
-        value={opacity}
+        value={props.opacity}
         type="number"
         inputProps={{ min: 0.1, max: 1, step: 0.1 }}
-        onChange={e => setOpacity(Number(e.target.value))}
+        onChange={e => props.setOpacity(Number(e.target.value))}
       />
     </div>
   );

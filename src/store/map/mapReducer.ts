@@ -2,6 +2,7 @@ import {
   INIT_MAPS,
   MapActions,
   MapState,
+  REMOVE_MARKER,
   SET_CENTER,
   SET_OPACITY,
   SET_POINTS,
@@ -32,6 +33,8 @@ export const mapReducer = (
       // @ts-ignore
       const heatmap = new window.google.maps.visualization.HeatmapLayer({});
       heatmap.setMap(map);
+      heatmap.set("radius", 50);
+      heatmap.set("opacity", 0.8);
 
       return { ...state, map, heatmap };
 
@@ -52,7 +55,7 @@ export const mapReducer = (
       return { ...state, radius: action.radius };
 
     case SET_OPACITY:
-      state.heatmap.set("radius", action.opacity);
+      state.heatmap.set("opacity", action.opacity);
 
       return { ...state, opacity: action.opacity };
 
@@ -61,6 +64,11 @@ export const mapReducer = (
       state.heatmap.setData(new window.google.maps.MVCArray(action.points));
 
       return state;
+
+    case REMOVE_MARKER:
+      state.marker.setMap(null);
+
+      return { ...state, marker: null };
 
     default:
       return state;

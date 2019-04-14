@@ -1,6 +1,8 @@
 import {
   INIT_MAPS,
   InitMapsAction,
+  REMOVE_MARKER,
+  RemoveMarkerAction,
   SET_CENTER,
   SET_OPACITY,
   SET_POINTS,
@@ -36,4 +38,8 @@ export const setPointsAction = (
 ): SetPointsAction => ({
   type: SET_POINTS,
   points
+});
+
+export const removeMarkerAction = (): RemoveMarkerAction => ({
+  type: REMOVE_MARKER
 });

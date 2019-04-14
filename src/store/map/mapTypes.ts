@@ -5,6 +5,7 @@ export const SET_CENTER = "[map] SET_CENTER";
 export const SET_RADIUS = "[map] SET_RADIUS";
 export const SET_OPACITY = "[map] SET_OPACITY";
 export const SET_POINTS = "[map] SET_POINTS";
+export const REMOVE_MARKER = "[map] REMOVE_MARKER";
 
 export interface InitMapsAction {
   type: typeof INIT_MAPS;
@@ -30,12 +31,17 @@ export interface SetPointsAction {
   points: Array<Coordinate>;
 }
 
+export interface RemoveMarkerAction {
+  type: typeof REMOVE_MARKER;
+}
+
 export type MapActions =
   | InitMapsAction
   | SetCenterAction
   | SetRadiusAction
   | SetOpacityAction
-  | SetPointsAction;
+  | SetPointsAction
+  | RemoveMarkerAction;
 
 export interface MapState {
   map: any;

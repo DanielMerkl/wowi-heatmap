@@ -28,9 +28,17 @@ export const fetchBestaendeAction = (): ThunkAction<
 > => async (dispatch: Dispatch<DataActions>) => {
   dispatch(fetchBestaendeRequestAction());
   try {
-    const response: any = await Api.fetchBestaende();
-    const bestaende: Array<Bestand> = response.data;
-    dispatch(fetchBestaendeSuccessAction(bestaende));
+    // const response: any = await Api.fetchBestaende();
+    // const bestaende: Array<Bestand> = response.data;
+    const fakeBestaende = [
+      { lat: 51.2366927, lng: 6.7754234, firma: "Fullhouse GmbH" },
+      { lat: 51.24, lng: 6.78, firma: "Fullhouse GmbH" },
+      { lat: 51.25, lng: 6.77, firma: "Fullhouse GmbH" },
+      { lat: 51.23, lng: 6.72, firma: "Daystar GmbH" },
+      { lat: 51.23, lng: 6.71, firma: "Daystar GmbH" },
+      { lat: 51.22, lng: 6.7, firma: "Daystar GmbH" }
+    ];
+    dispatch(fetchBestaendeSuccessAction(fakeBestaende));
   } catch (e) {
     console.error(e);
     dispatch(fetchBestaendeFailureAction(e));

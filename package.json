@@ -34,5 +34,8 @@
     "not ie <= 11",
     "not op_mini all"
   ],
-  "proxy": "http://localhost:61112"
+  "proxy": "http://localhost:61112",
+  "devDependencies": {
+    "@types/react-redux": "^7.0.6"
+  }
 }
