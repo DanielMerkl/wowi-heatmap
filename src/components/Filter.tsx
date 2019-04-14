@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   FormControl,
   InputLabel,
@@ -11,6 +11,15 @@ import { makeStyles } from "@material-ui/styles";
 import { Coordinate } from "../types/Coordinate";
 import { Bestand } from "../types/Bestand";
 import { Schaden } from "../types/Schaden";
+import { AppActions, AppState } from "../store/stors";
+import { Dispatch } from "redux";
+import {
+  setOpacityAction,
+  setPointsAction,
+  setRadiusAction
+} from "../store/map/mapActions";
+import { connect } from "react-redux";
+import { mapToCoordinates } from "../utils/mapToCoordinates";
 
 interface FilterProps {
   radius: number;
@@ -21,16 +30,44 @@ interface FilterProps {
   schaeden: Array<Schaden>;
   setPoints: (points: Array<Coordinate>) => void;
   map: any;
-  darstellungsart: string;
-  setDarstellungsart: (darstellungsart: string) => void;
-  filterFirmenname: string;
-  setFilterFirmenname: (firmenname: string) => void;
-  filterSchadensart: string;
-  setFilterSchadensart: (schadensart: string) => void;
 }
 
 const Filter = (props: FilterProps) => {
   const classes = useStyles();
+
+  const [darstellungsart, setDarstellungsart] = useState("Bestand");
+  const [filterFirmenname, setFilterFirmenname] = useState("");
+  const [filterSchadensart, setFilterSchadensart] = useState("");
+
+  useEffect(() => {
+    if (props.map === null) {
+      return;
+    }
+
+    let filteredData;
+    let coordinates: Array<Coordinate>;
+
+    if (darstellungsart === "Bestand") {
+      if (filterFirmenname === "") {
+        filteredData = props.bestaende;
+      } else {
+        filteredData = props.bestaende.filter(
+          el => el.firma === filterFirmenname
+        );
+      }
+    } else {
+      if (filterSchadensart === "") {
+        filteredData = props.schaeden;
+      } else {
+        filteredData = props.schaeden.filter(
+          el => el.SchadenCode === filterSchadensart
+        );
+      }
+    }
+
+    coordinates = mapToCoordinates(filteredData);
+    props.setPoints(coordinates);
+  }, [filterFirmenname, filterSchadensart, darstellungsart]);
 
   return (
     <div className={classes.gridWrapper}>
@@ -38,11 +75,11 @@ const Filter = (props: FilterProps) => {
         <InputLabel>Darstellungsart</InputLabel>
         <Select
           input={<OutlinedInput labelWidth={110} />}
-          value={props.darstellungsart}
+          value={darstellungsart}
           onChange={e => {
-            props.setFilterSchadensart("");
-            props.setFilterFirmenname("");
-            props.setDarstellungsart(e.target.value);
+            setFilterSchadensart("");
+            setFilterFirmenname("");
+            setDarstellungsart(e.target.value);
           }}
         >
           <MenuItem value={"Bestand"}>Bestand</MenuItem>
@@ -50,15 +87,12 @@ const Filter = (props: FilterProps) => {
         </Select>
       </FormControl>
 
-      <FormControl
-        variant="outlined"
-        disabled={props.darstellungsart === "Schäden"}
-      >
+      <FormControl variant="outlined" disabled={darstellungsart === "Schäden"}>
         <InputLabel>Firmenname</InputLabel>
         <Select
           input={<OutlinedInput labelWidth={92} />}
-          value={props.filterFirmenname}
-          onChange={e => props.setFilterFirmenname(e.target.value)}
+          value={filterFirmenname}
+          onChange={e => setFilterFirmenname(e.target.value)}
         >
           <MenuItem value={""}>-</MenuItem>
           <MenuItem value={"Fullhouse GmbH"}>Fullhouse GmbH</MenuItem>
@@ -72,15 +106,12 @@ const Filter = (props: FilterProps) => {
         </Select>
       </FormControl>
 
-      <FormControl
-        variant="outlined"
-        disabled={props.darstellungsart === "Bestand"}
-      >
+      <FormControl variant="outlined" disabled={darstellungsart === "Bestand"}>
         <InputLabel>Schadensart</InputLabel>
         <Select
           input={<OutlinedInput labelWidth={92} />}
-          value={props.filterSchadensart}
-          onChange={e => props.setFilterSchadensart(e.target.value)}
+          value={filterSchadensart}
+          onChange={e => setFilterSchadensart(e.target.value)}
         >
           <MenuItem value={""}>-</MenuItem>
           <MenuItem value={"0001"}>Feuer</MenuItem>
@@ -123,4 +154,21 @@ const useStyles = makeStyles({
   }
 });
 
-export default Filter;
+const mapStateToProps = (state: AppState) => ({
+  radius: state.map.radius,
+  opacity: state.map.opacity,
+  bestaende: state.data.bestaende,
+  schaeden: state.data.schaeden,
+  map: state.map.map
+});
+
+const mapDispatchToProps = (dispatch: Dispatch<AppActions>) => ({
+  setRadius: (radius: number) => dispatch(setRadiusAction(radius)),
+  setOpacity: (opacity: number) => dispatch(setOpacityAction(opacity)),
+  setPoints: (points: Array<Coordinate>) => dispatch(setPointsAction(points))
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Filter);

@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from "react";
-
-import { LinearProgress } from "@material-ui/core";
+import React, { useEffect } from "react";
 
 import SimpleAppBar from "./components/SimpleAppBar";
 import Heatmap from "./components/Heatmap";
@@ -9,7 +7,6 @@ import { Bestand } from "./types/Bestand";
 import { mapToCoordinates } from "./utils/mapToCoordinates";
 import { makeStyles } from "@material-ui/styles";
 import { Coordinate } from "./types/Coordinate";
-import AdressSearchContainer from "./containers/AdressSearchContainer";
 import { connect } from "react-redux";
 import { AppActions, AppState } from "./store/stors";
 import { initMapsAction, setPointsAction } from "./store/map/mapActions";
@@ -18,16 +15,16 @@ import {
   fetchSchaendenAction
 } from "./store/data/dataActions";
 import { ThunkDispatch } from "redux-thunk";
-import FilterContainer from "./containers/FilterContainer";
+import AdressSearch from "./components/AdressSearch";
+import Filter from "./components/Filter";
+import LoadingIndicator from "./components/LoadingIndicator";
 
 interface AppProps {
-  initMaps: () => void;
   bestaende: Array<Bestand>;
   schaeden: Array<Schaden>;
+  initMaps: () => void;
   fetchBestaende: () => void;
   fetchSchaeden: () => void;
-  loadingBestaende: boolean;
-  loadingSchaeden: boolean;
   setPoints: (points: Array<Coordinate>) => void;
 }
 
@@ -49,15 +46,11 @@ const App = (props: AppProps) => {
   return (
     <>
       <SimpleAppBar />
-      <div style={{ height: 1 }}>
-        {(props.loadingBestaende || props.loadingSchaeden) && (
-          <LinearProgress />
-        )}
-      </div>
-      <AdressSearchContainer />
+      <LoadingIndicator />
+      <AdressSearch />
       <div className={classes.gridWrapper}>
         <Heatmap />
-        <FilterContainer />
+        <Filter />
       </div>
     </>
   );
@@ -74,7 +67,8 @@ const useStyles = makeStyles({
 });
 
 const mapStateToProps = (state: AppState) => ({
-  ...state.data
+  bestaende: state.data.bestaende,
+  schaeden: state.data.schaeden
 });
 
 const mapDispatchToProps = (
