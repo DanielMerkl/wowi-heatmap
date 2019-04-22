@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { FC, useEffect } from "react";
 
 import SimpleAppBar from "./components/SimpleAppBar";
 import Heatmap from "./components/Heatmap";
@@ -19,23 +19,27 @@ import AdressSearch from "./components/AdressSearch";
 import Filter from "./components/Filter";
 import LoadingIndicator from "./components/LoadingIndicator";
 
-interface AppProps {
+interface StateProps {
   bestaende: Array<Bestand>;
   schaeden: Array<Schaden>;
+}
+
+interface DispatchProps {
   initMaps: () => void;
   fetchBestaende: () => void;
   fetchSchaeden: () => void;
   setPoints: (points: Array<Coordinate>) => void;
 }
 
-const App = (props: AppProps) => {
+type AppProps = StateProps & DispatchProps;
+
+const App: FC<AppProps> = props => {
   const classes = useStyles();
 
   useEffect(() => {
-    // fetchData();
     props.initMaps();
     props.fetchBestaende();
-    props.fetchSchaeden();
+    // props.fetchSchaeden();
   }, []);
 
   useEffect(() => {
@@ -66,14 +70,14 @@ const useStyles = makeStyles({
   }
 });
 
-const mapStateToProps = (state: AppState) => ({
+const mapStateToProps = (state: AppState): StateProps => ({
   bestaende: state.data.bestaende,
   schaeden: state.data.schaeden
 });
 
 const mapDispatchToProps = (
   dispatch: ThunkDispatch<AppState, null, AppActions>
-) => ({
+): DispatchProps => ({
   initMaps: () => dispatch(initMapsAction()),
   fetchBestaende: () => dispatch(fetchBestaendeAction()),
   fetchSchaeden: () => dispatch(fetchSchaendenAction()),

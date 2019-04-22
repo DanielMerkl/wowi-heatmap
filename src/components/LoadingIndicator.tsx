@@ -1,22 +1,22 @@
-import React from "react";
+import React, { FC } from "react";
 import { LinearProgress } from "@material-ui/core";
 import { connect } from "react-redux";
 import { AppState } from "../store/stors";
 
-interface LoadingIndicatorProps {
+interface StateProps {
   loadingBestaende: boolean;
   loadingSchaeden: boolean;
 }
 
-const LoadingIndicator = (props: LoadingIndicatorProps) => {
-  return (
-    <div style={{ height: 1 }}>
-      {(props.loadingBestaende || props.loadingSchaeden) && <LinearProgress />}
-    </div>
-  );
-};
+type LoadingIndicatorProps = StateProps;
 
-const mapStateToProps = (state: AppState) => ({
+const LoadingIndicator: FC<LoadingIndicatorProps> = props => (
+  <div style={{ height: 1 }}>
+    {(props.loadingBestaende || props.loadingSchaeden) && <LinearProgress />}
+  </div>
+);
+
+const mapStateToProps = (state: AppState): StateProps => ({
   loadingBestaende: state.data.loadingBestaende,
   loadingSchaeden: state.data.loadingSchaeden
 });

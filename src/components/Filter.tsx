@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import {
   FormControl,
   InputLabel,
@@ -21,18 +21,23 @@ import {
 import { connect } from "react-redux";
 import { mapToCoordinates } from "../utils/mapToCoordinates";
 
-interface FilterProps {
+interface StateProps {
   radius: number;
-  setRadius: (radius: number) => void;
   opacity: number;
-  setOpacity: (opacity: number) => void;
   bestaende: Array<Bestand>;
   schaeden: Array<Schaden>;
-  setPoints: (points: Array<Coordinate>) => void;
   map: any;
 }
 
-const Filter = (props: FilterProps) => {
+interface DispatchProps {
+  setRadius: (radius: number) => void;
+  setOpacity: (opacity: number) => void;
+  setPoints: (points: Array<Coordinate>) => void;
+}
+
+type FilterProps = StateProps & DispatchProps;
+
+const Filter: FC<FilterProps> = props => {
   const classes = useStyles();
 
   const [darstellungsart, setDarstellungsart] = useState("Bestand");
@@ -60,7 +65,7 @@ const Filter = (props: FilterProps) => {
         filteredData = props.schaeden;
       } else {
         filteredData = props.schaeden.filter(
-          el => el.SchadenCode === filterSchadensart
+          el => el.schadenCode === filterSchadensart
         );
       }
     }
@@ -154,7 +159,7 @@ const useStyles = makeStyles({
   }
 });
 
-const mapStateToProps = (state: AppState) => ({
+const mapStateToProps = (state: AppState): StateProps => ({
   radius: state.map.radius,
   opacity: state.map.opacity,
   bestaende: state.data.bestaende,
@@ -162,7 +167,7 @@ const mapStateToProps = (state: AppState) => ({
   map: state.map.map
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<AppActions>) => ({
+const mapDispatchToProps = (dispatch: Dispatch<AppActions>): DispatchProps => ({
   setRadius: (radius: number) => dispatch(setRadiusAction(radius)),
   setOpacity: (opacity: number) => dispatch(setOpacityAction(opacity)),
   setPoints: (points: Array<Coordinate>) => dispatch(setPointsAction(points))

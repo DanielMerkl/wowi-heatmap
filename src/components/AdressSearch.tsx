@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, FC, useState } from "react";
 
 import { Button, CircularProgress, TextField } from "@material-ui/core";
 import { GpsFixed } from "@material-ui/icons";
@@ -11,13 +11,18 @@ import { Dispatch } from "redux";
 import { removeMarkerAction, setCenterAction } from "../store/map/mapActions";
 import { connect } from "react-redux";
 
-export interface AdressSearchProps {
+interface StateProps {
   marker: any;
+}
+
+interface DispatchProps {
   setCenter: (coordinate: Coordinate) => void;
   removeMarker: () => void;
 }
 
-const AdressSearch = (props: AdressSearchProps) => {
+type AdressSearchProps = StateProps & DispatchProps;
+
+const AdressSearch: FC<AdressSearchProps> = props => {
   const classes = useStyles();
 
   const [adresse, setAdresse] = useState("");
@@ -44,11 +49,11 @@ const AdressSearch = (props: AdressSearchProps) => {
       const data = await response.json();
 
       if (data.results.length <= 0) {
-        throw new Error("Es konnten keine Koordinaten gefunden werden!");
+        console.error("Es konnten keine Koordinaten gefunden werden!");
+      } else {
+        const coordinate: Coordinate = { ...data.results[0].geometry.location };
+        props.setCenter(coordinate);
       }
-
-      const coordinate: Coordinate = { ...data.results[0].geometry.location };
-      props.setCenter(coordinate);
     } catch (e) {
       console.error(e);
     } finally {
@@ -119,11 +124,11 @@ const useStyles = makeStyles({
   }
 });
 
-const mapStateToProps = (state: AppState) => ({
+const mapStateToProps = (state: AppState): StateProps => ({
   marker: state.map.marker
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<AppActions>) => ({
+const mapDispatchToProps = (dispatch: Dispatch<AppActions>): DispatchProps => ({
   setCenter: (coordinate: Coordinate) => dispatch(setCenterAction(coordinate)),
   removeMarker: () => dispatch(removeMarkerAction())
 });

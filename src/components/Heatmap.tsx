@@ -1,9 +1,9 @@
-import React from "react";
+import React, { FC } from "react";
 
 import { makeStyles } from "@material-ui/styles";
 import { Paper } from "@material-ui/core";
 
-const Heatmap = () => {
+const Heatmap: FC = () => {
   const classes = useStyles();
 
   return (
