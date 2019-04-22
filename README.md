@@ -36,8 +36,8 @@ Weitere Informationen:
 4. Oberfläche mit dem Befehl `npm start` starten
 
 ## Format der Daten aus dem Backend
-Für die Darstellung auf der Karte werden Längen- und Breitengrad benötigt.
-Ein Objekt ohne zusätliche Metadaten würde folgendermaßen aussehen:
+Für die Darstellung auf der Karte werden Längen- und Breitengrade benötigt.
+Ein Objekt ohne zusätzliche Metadaten würde folgendermaßen aussehen:
 
 ```
 const einfacherStandort = {
@@ -56,7 +56,7 @@ Beispiele für Metadaten:
 ```
 const sinnvollerStandort = {
     lat: 51.2366927,
-    lgn: 6.7754234,
+    lng: 6.7754234,
     firmenname: 'Beispiel GmbH',
     schadensart: 'Feuer',
     datum: 01.04.2014
@@ -68,21 +68,21 @@ Die einzelnen Objekte sollten dem Frontend als Liste zur Verfügung gestellt wer
 const schadenListe = [
     {
         lat: 52.2363321,
-        lgn: 6.7754234,
+        lng: 6.7754234,
         firmenname: 'Beispiel GmbH',
         schadensart: 'Feuer',
         datum: 01.04.2014
     },
     {
         lat: 50.4364927,
-        lgn: 6.7757237,
+        lng: 6.7757237,
         firmenname: 'Muster AG',
         schadensart: 'Überschwemmung',
         datum: 12.07.2017
     },
     {
         lat: 51.2366927,
-        lgn: 8.7354254,
+        lng: 8.7354254,
         firmenname: 'Example GmbH',
         schadensart: 'Vandalismus',
         datum: 01.01.2018
